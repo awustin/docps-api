@@ -1,0 +1,1482 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "API DOCPS",
+    "description": "API del Sistema de documentación de las pruebas de software",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://docps-backend"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Sesión y usuarios"
+    },
+    {
+      "name": "Grupos"
+    },
+    {
+      "name": "Proyectos y planes de pruebas"
+    },
+    {
+      "name": "Casos de prueba"
+    },
+    {
+      "name": "Ejecuciones"
+    },
+    {
+      "name": "Reportes"
+    }
+  ],
+  "paths": {
+    "/userLogIn": {
+      "post": {
+        "tags": [
+          "Sesión y usuarios"
+        ],
+        "summary": "Autentifica y autoriza al usuario para iniciar sesión",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "username": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Entrada inválida"
+          }
+        }
+      }
+    },
+    "/changePassword": {
+      "post": {
+        "tags": [
+          "Sesión y usuarios"
+        ],
+        "summary": "Cambia la contraseña del usuario",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "userId": {
+                    "type": "string"
+                  },
+                  "currentPassword": {
+                    "type": "string"
+                  },
+                  "newPassword": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Entrada inválida"
+          }
+        }
+      }
+    },
+    "/getUserInfoById/{userId}": {
+      "get": {
+        "tags": [
+          "Sesión y usuarios"
+        ],
+        "summary": "Devuelve la información del usuario según el id proporcionado",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "Id del usuario",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Entrada inválida"
+          }
+        }
+      }
+    },
+    "/createUser": {
+      "post": {
+        "tags": [
+          "Sesión y usuarios"
+        ],
+        "summary": "Crea un usuario y envía un mail de verificación",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string"
+                  },
+                  "username": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "lastname": {
+                    "type": "string"
+                  },
+                  "dni": {
+                    "type": "string"
+                  },
+                  "street": {
+                    "type": "string"
+                  },
+                  "streetNumber": {
+                    "type": "string"
+                  },
+                  "addressExtra": {
+                    "type": "string"
+                  },
+                  "job": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Entrada inválida"
+          }
+        }
+      }
+    },
+    "/searchUsers": {
+      "post": {
+        "tags": [
+          "Sesión y usuarios"
+        ],
+        "summary": "Devuelve una lista de usuarios que cumplen con los criterio provistos",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "createdOn": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "format": "date"
+                    },
+                    "minItems": 2,
+                    "maxItems": 2
+                  },
+                  "email": {
+                    "type": "string"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "status": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Entrada inválida"
+          }
+        }
+      }
+    },
+    "/updateUser": {
+      "post": {
+        "tags": [
+          "Sesión y usuarios"
+        ],
+        "summary": "Actualiza la información del usuario con los datos proporcionados",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "integer"
+                  },
+                  "email": {
+                    "type": "string"
+                  },
+                  "username": {
+                    "type": "string"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "lastname": {
+                    "type": "string"
+                  },
+                  "dni": {
+                    "type": "string"
+                  },
+                  "street": {
+                    "type": "string"
+                  },
+                  "streetNumber": {
+                    "type": "string"
+                  },
+                  "addressExtra": {
+                    "type": "string"
+                  },
+                  "job": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Entrada inválida"
+          }
+        }
+      }
+    },
+    "/deleteUserById/{userId}": {
+      "delete": {
+        "tags": [
+          "Sesión y usuarios"
+        ],
+        "summary": "Elimina el usuario con el id proporcionado y devuelve un mensaje de error en caso de no ser posible.",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "Id del usuario",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Entrada inválida"
+          }
+        }
+      }
+    },
+    "/changeUserStatusById": {
+      "post": {
+        "tags": [
+          "Sesión y usuarios"
+        ],
+        "summary": "Activa o desactiva al usuario con el id proporcionado, según su estado actual (active o inactive)",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "userId": {
+                    "type": "integer"
+                  },
+                  "email": {
+                    "type": "string"
+                  },
+                  "status": {
+                    "type": "string",
+                    "enum": [
+                      "active",
+                      "inactive"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Entrada inválida"
+          }
+        }
+      }
+    },
+    "/getGroupById/{groupId}": {
+      "get": {
+        "tags": [
+          "Grupos"
+        ],
+        "summary": "Devuelve el grupo con el id proporcionado",
+        "parameters": [
+          {
+            "name": "groupId",
+            "in": "path",
+            "description": "Id del grupo",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Entrada inválida"
+          }
+        }
+      }
+    },
+    "/searchGroups": {
+      "post": {
+        "tags": [
+          "Grupos"
+        ],
+        "summary": "Devuelve una lista de grupos a los que pertenece el usuario con el id provisto, que cumplen con los criterios provistos",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "userId": {
+                    "type": "string"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "status": {
+                    "type": "string",
+                    "enum": [
+                      "active",
+                      "inactive"
+                    ]
+                  },
+                  "role": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Entrada inválida"
+          }
+        }
+      }
+    },
+    "/createGroup": {
+      "post": {
+        "tags": [
+          "Grupos"
+        ],
+        "summary": "Crea un grupo con el nombre provisto",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Entrada inválida"
+          }
+        }
+      }
+    },
+    "/getGroupAndMembersById/{groupId}": {
+      "get": {
+        "tags": [
+          "Grupos"
+        ],
+        "summary": "Devuelve la lista de los miembros del grupo con el id proporcionado",
+        "parameters": [
+          {
+            "name": "groupId",
+            "in": "path",
+            "description": "Id del grupo",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Entrada inválida"
+          }
+        }
+      }
+    },
+    "/updateGroup": {
+      "post": {
+        "tags": [
+          "Grupos"
+        ],
+        "summary": "Actualiza la información del grupo con los datos proporcionados",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "integer"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "members": {
+                    "type": "array",
+                    "items": {
+                      "type": "integer"
+                    }
+                  },
+                  "adminMembers": {
+                    "type": "array",
+                    "items": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Entrada inválida"
+          }
+        }
+      }
+    },
+    "/deleteGroup/{groupId}": {
+      "delete": {
+        "tags": [
+          "Grupos"
+        ],
+        "summary": "Elimina el grupo con el id proporcionado y devuelve un mensaje de error en caso de no ser posible.",
+        "parameters": [
+          {
+            "name": "groupId",
+            "in": "path",
+            "description": "Id del grupo",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Entrada inválida"
+          }
+        }
+      }
+    },
+    "/changeGroupStatusById": {
+      "post": {
+        "tags": [
+          "Grupos"
+        ],
+        "summary": "Activa o desactiva al grupo con el id proporcionado, según su estado actual (active o inactive)",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "groupId": {
+                    "type": "integer"
+                  },
+                  "status": {
+                    "type": "string",
+                    "enum": [
+                      "active",
+                      "inactive"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Entrada inválida"
+          }
+        }
+      }
+    },
+    "/searchProjects": {
+      "post": {
+        "tags": [
+          "Proyectos y planes de pruebas"
+        ],
+        "summary": "Devuelve una lista de proyectos que cumplen con los criterios proporcionados",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "projectName": {
+                    "type": "string"
+                  },
+                  "projectGroups": {
+                    "type": "array",
+                    "items": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Entrada inválida"
+          }
+        }
+      }
+    },
+    "/createProject": {
+      "post": {
+        "tags": [
+          "Proyectos y planes de pruebas"
+        ],
+        "summary": "Crea un proyecto con el nombre proporcionado, perteneciente al grupo indicado",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "projectName": {
+                    "type": "string"
+                  },
+                  "projectGroup": {
+                    "type": "integer"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Entrada inválida"
+          }
+        }
+      }
+    },
+    "/getProjectById/{projectId}": {
+      "get": {
+        "tags": [
+          "Proyectos y planes de pruebas"
+        ],
+        "summary": "Devuelve la información del proyecto con el id proporcionado y una lista de sus planes de pruebas",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "projectId",
+            "description": "Clave compuesta del proyecto, representada por una cadena con el formato `IdGrupo.IdProyecto`",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Entrada inválida"
+          }
+        }
+      }
+    },
+    "/updateProject": {
+      "post": {
+        "tags": [
+          "Proyectos y planes de pruebas"
+        ],
+        "summary": "Actualiza la información del proyecto con el id proporcionado",
+        "description": "El id es la clave compuesta del proyecto, representada por una cadena con el formato `IdGrupo.IdProyecto`",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  },
+                  "projectName": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Entrada inválida"
+          }
+        }
+      }
+    },
+    "/deleteProject/{projectId}": {
+      "delete": {
+        "tags": [
+          "Proyectos y planes de pruebas"
+        ],
+        "summary": "Elimina el proyecto con el id proporcionado y devuelve un mensaje de error en caso de no ser posible.",
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "description": "Clave compuesta del proyecto, representada por una cadena con el formato `IdGrupo.IdProyecto`",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Entrada inválida"
+          }
+        }
+      }
+    },
+    "/createTestplan": {
+      "post": {
+        "tags": [
+          "Proyectos y planes de pruebas"
+        ],
+        "summary": "Crea un plan de pruebas para el proyecto indicado",
+        "description": "El id del proyecto (_idproject_) se representa con una cadena en el formato `IdGrupo.IdProyecto`",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "idproject": {
+                    "type": "string"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string"
+                  },
+                  "tags": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Entrada inválida"
+          }
+        }
+      }
+    },
+    "/searchTestplans": {
+      "post": {
+        "tags": [
+          "Proyectos y planes de pruebas"
+        ],
+        "summary": "Devuelve una lista de planes de pruebas que cumplen con los criterios proporcionados",
+        "description": "_group_: id de grupo <br> _projects_: ids de los proyectos pertenecientes al grupo indicado <br> _createdOn_: rango de fechas",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "group": {
+                    "type": "integer"
+                  },
+                  "projects": {
+                    "type": "array",
+                    "items": {
+                      "type": "integer"
+                    }
+                  },
+                  "testplanName": {
+                    "type": "string"
+                  },
+                  "createdOn": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "format": "date"
+                    },
+                    "minItems": 2,
+                    "maxItems": 2
+                  },
+                  "tags": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Entrada inválida"
+          }
+        }
+      }
+    },
+    "/getTestplanById/{testplanId}": {
+      "get": {
+        "tags": [
+          "Proyectos y planes de pruebas"
+        ],
+        "summary": "Devuelve la información del plan de pruebas con el id proporcionado y una lista de sus casos de pruebas.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "testplanId",
+            "description": "Clave compuesta del plan de pruebas, representada por una cadena con el formato `IdGrupo.IdProyecto.IdPlan`",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Entrada inválida"
+          }
+        }
+      }
+    },
+    "/updateTestplan": {
+      "post": {
+        "tags": [
+          "Proyectos y planes de pruebas"
+        ],
+        "summary": "Actualiza la información del plan de pruebas con el id proporcionado",
+        "description": "El id es la clave compuesta del plan de pruebas, representada por una cadena con el formato `IdGrupo.IdProyecto.IdPlan`",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string"
+                  },
+                  "tags": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Entrada inválida"
+          }
+        }
+      }
+    },
+    "/deleteTestplan/{testplanId}": {
+      "delete": {
+        "tags": [
+          "Proyectos y planes de pruebas"
+        ],
+        "summary": "Elimina el plan de pruebas con el id proporcionado y devuelve un mensaje de error en caso de no ser posible.",
+        "parameters": [
+          {
+            "name": "testplanId",
+            "in": "path",
+            "description": "Clave compuesta del plan de pruebas, representada por una cadena con el formato `IdGrupo.IdProyecto.IdPlan`",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Entrada inválida"
+          }
+        }
+      }
+    },
+    "/downloadTestplanFile/{filename}": {
+      "get": {
+        "tags": [
+          "Proyectos y planes de pruebas"
+        ],
+        "summary": "Descarga el archivo .xlsx identificado con el nombre proporcionado.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "filename",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Un archivo .xlsx",
+            "content": {
+              "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Entrada inválida"
+          }
+        }
+      }
+    },
+    "/getTestcaseById/{testcaseId}": {
+      "get": {
+        "tags": [
+          "Casos de prueba"
+        ],
+        "summary": "Devuelve la información del caso de prueba con el id proporcionado y una lista de sus pasos.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "testcaseId",
+            "description": "Clave compuesta del caso de prueba, representada por una cadena con el formato `IdGrupo.IdProyecto.IdPlan.IdCaso`",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Entrada inválida"
+          }
+        }
+      }
+    },
+    "/createTestcase": {
+      "post": {
+        "tags": [
+          "Casos de prueba"
+        ],
+        "summary": "Crea un caso de prueba para el plan de pruebas indicado.",
+        "description": "El id del plan de pruebas (_testplanId_) se representa con una cadena en el formato `IdGrupo.IdProyecto.IdPlan` <br> _priority_: toma los valores 1 (baja), 2 (media) o 3 (alta)",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "testplanId": {
+                    "type": "string"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "preconditions": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string"
+                  },
+                  "priority": {
+                    "type": "integer",
+                    "default": 1
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Entrada inválida"
+          }
+        }
+      }
+    },
+    "/updateTestcase": {
+      "post": {
+        "tags": [
+          "Casos de prueba"
+        ],
+        "summary": "Actualiza la información del caso de prueba con el id proporcionado",
+        "description": "El id es la clave compuesta del caso de prueba, representada por una cadena con el formato `IdGrupo.IdProyecto.IdPlan.IdCaso`",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "preconditions": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string"
+                  },
+                  "priority": {
+                    "type": "integer",
+                    "default": 1
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Entrada inválida"
+          }
+        }
+      }
+    },
+    "/saveSteps": {
+      "post": {
+        "tags": [
+          "Casos de prueba"
+        ],
+        "summary": "Guarda los pasos y variables pertenecientes al caso de prueba proporcionado.",
+        "description": "El id es la clave compuesta del caso de prueba, representada por una cadena con el formato `IdGrupo.IdProyecto.IdPlan.IdCaso` <br> _steps_: Es un arreglo de objetos que describen los pasos. Cada objeto posee: <br> - _order_: Es el orden que ocupa el paso en el caso de prueba (1 si es primero, 2 si es segundo, etc.) <br> - _action_, _data_ y _result_: Son las propiedades acción, datos y resultado de cada paso. <br> - _actionVariable_, _dataVariable_ y _resultVariable_: Son las variables de los campos acción, datos y resultado respectivamente. Poseen nombre y una lista de valores posibles.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  },
+                  "steps": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "order": {
+                          "type": "integer",
+                          "default": 1
+                        },
+                        "action": {
+                          "type": "string"
+                        },
+                        "actionVariable": {
+                          "type": "object",
+                          "properties": {
+                            "name": {
+                              "type": "string"
+                            },
+                            "values": {
+                              "type": "array",
+                              "items": {
+                                "type": "string"
+                              }
+                            }
+                          }
+                        },
+                        "data": {
+                          "type": "string"
+                        },
+                        "dataVariable": {
+                          "type": "object",
+                          "properties": {
+                            "name": {
+                              "type": "string"
+                            },
+                            "values": {
+                              "type": "array",
+                              "items": {
+                                "type": "string"
+                              }
+                            }
+                          }
+                        },
+                        "result": {
+                          "type": "string"
+                        },
+                        "resultVariable": {
+                          "type": "object",
+                          "properties": {
+                            "name": {
+                              "type": "string"
+                            },
+                            "values": {
+                              "type": "array",
+                              "items": {
+                                "type": "string"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Entrada inválida"
+          }
+        }
+      }
+    },
+    "/deleteTestcase/{testcaseId}": {
+      "delete": {
+        "tags": [
+          "Casos de prueba"
+        ],
+        "summary": "Elimina el caso de prueba con el id proporcionado y devuelve un mensaje de error en caso de no ser posible.",
+        "parameters": [
+          {
+            "name": "testcaseId",
+            "in": "path",
+            "description": "Clave compuesta del caso de prueba, representada por una cadena con el formato `IdGrupo.IdProyecto.IdPlan.IdCaso`",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Entrada inválida"
+          }
+        }
+      }
+    },
+    "/getExecutionsForTestcase/{testcaseId}": {
+      "post": {
+        "tags": [
+          "Ejecuciones"
+        ],
+        "summary": "Devuelve la lista de ejecuciones del caso de prueba con el id proporcionado.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "testcaseId",
+            "description": "Clave compuesta del caso de prueba, representada por una cadena con el formato `IdGrupo.IdProyecto.IdPlan.IdCaso`",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Entrada inválida"
+          }
+        }
+      }
+    },
+    "/insertExecution": {
+      "post": {
+        "tags": [
+          "Ejecuciones"
+        ],
+        "summary": "Crea una ejecución para el caso de prueba indicado.",
+        "description": "El id del caso de prueba (_testcaseId_) se representa con una cadena en el formato `IdGrupo.IdProyecto.IdPlan.IdCaso`",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "testplanId": {
+                    "type": "string"
+                  },
+                  "user": {
+                    "type": "integer"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Entrada inválida"
+          }
+        }
+      }
+    },
+    "/updateExecutionById": {
+      "post": {
+        "tags": [
+          "Ejecuciones"
+        ],
+        "summary": "Actualiza la información de la ejecución con los datos proporcionados",
+        "description": "El id es la clave compuesta de la ejecución, representada por una cadena con el formato `IdGrupo.IdProyecto.IdPlan.IdCaso.IdEjecucion` <br><br> _status_: lleva el estado de la ejecución, y debe ser `Not executed`, `In progress`, `Passed` o `Failed`",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  },
+                  "commentary": {
+                    "type": "string"
+                  },
+                  "status": {
+                    "type": "string",
+                    "enum": [
+                      "Not executed",
+                      "In progress",
+                      "Passed",
+                      "Failed"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Entrada inválida"
+          }
+        }
+      }
+    },
+    "/deleteExecutionById/{executionId}": {
+      "delete": {
+        "tags": [
+          "Ejecuciones"
+        ],
+        "summary": "Elimina la ejecución con el id proporcionado y devuelve un mensaje de error en caso de no ser posible.",
+        "parameters": [
+          {
+            "name": "executionId",
+            "in": "path",
+            "description": "Clave compuesta de la ejecución, representada por una cadena con el formato `IdGrupo.IdProyecto.IdPlan.IdCaso.IdEjecucion`",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Entrada inválida"
+          }
+        }
+      }
+    },
+    "/getTestplansTestcasesCount": {
+      "post": {
+        "tags": [
+          "Reportes"
+        ],
+        "summary": "Devuelve los datos del reporte de número de casos de prueba.",
+        "description": "`projects`: arreglo de cadenas con el formato `IdGrupo.IdProyecto` <br><br> `dates`: rango de fechas para utilizar como inicio y fin del intervalo del reporte",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "projects": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "dates": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "format": "date"
+                    },
+                    "minItems": 2,
+                    "maxItems": 2
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Entrada inválida"
+          }
+        }
+      }
+    },
+    "/getExecutionsReport": {
+      "post": {
+        "tags": [
+          "Reportes"
+        ],
+        "summary": "Devuelve los datos del reporte de número de ejecuciones.",
+        "description": "`projects`: arreglo de cadenas con el formato `IdGrupo.IdProyecto` <br><br> `dates`: rango de fechas para utilizar como inicio y fin del intervalo del reporte",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "projects": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "dates": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "format": "date"
+                    },
+                    "minItems": 2,
+                    "maxItems": 2
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Entrada inválida"
+          }
+        }
+      }
+    },
+    "/getCurrentGroupStats/{groupId}": {
+      "get": {
+        "tags": [
+          "Reportes"
+        ],
+        "summary": "Devuelve la cuenta de planes de pruebas creados y casos de prueba exportados para el grupo con el id proporcionado.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "groupId",
+            "description": "Clave del grupo, `IdGrupo`",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Entrada inválida"
+          }
+        }
+      }
+    }
+  }
+}
